@@ -1,0 +1,614 @@
+/* ==========================================
+   1. CSS Custom Properties (ตัวแปรหลักสำหรับทั้งระบบ)
+   ========================================== */
+:root {
+  --primary-color: #0056b3;
+  --primary-hover: #004085;
+  --secondary-color: #6c757d;
+  --bg-color: #f8f9fa;
+  --text-color: #212529;
+  --white: #ffffff;
+  --border-color: #dee2e6;
+  
+  /* สีสถานะ */
+  --status-pending: #ffc107;
+  --status-progress: #17a2b8;
+  --status-done: #28a745;
+  
+  --font-main: Arial, sans-serif;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ==========================================
+   2. Layout Structure (Header, Nav, Main, Footer)
+   ========================================== */
+header {
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: var(--spacing-md);
+  text-align: center;
+}
+
+header h1 {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+nav {
+  background-color: var(--primary-hover);
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: var(--white);
+  text-decoration: none;
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+nav a:hover,
+nav a:focus-visible {
+  text-decoration: underline;
+  background-color: rgba(255, 255, 255, 0.15);
+  outline: 2px solid var(--white);
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--spacing-lg) var(--spacing-md);
+  flex: 1;
+  width: 100%;
+}
+
+footer {
+  background-color: #343a40;
+  color: var(--white);
+  text-align: center;
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.overview-action {
+  margin-top: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+/* ==========================================
+   3. Base Utility Classes & Common Components
+   ========================================== */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  padding: var(--spacing-md);
+  border-radius: 6px;
+}
+
+.btn-primary,
+button[type="submit"] {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover,
+button[type="submit"]:hover {
+  background-color: var(--primary-hover);
+}
+
+button[type="reset"].btn-secondary,
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: var(--white);
+  padding: 10px 16px;
+  height: 42px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+button[type="reset"].btn-secondary:hover,
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* รูปภาพในรายการปัญหาทั่วไป */
+.issue-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: var(--spacing-sm);
+  border: 1px solid var(--border-color);
+  display: block;
+}
+
+.status-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.status-pending { background-color: var(--status-pending); color: #000; }
+.status-progress { background-color: var(--status-progress); color: #fff; }
+.status-done { background-color: var(--status-done); color: #fff; }
+
+.divider {
+  margin: 24px 0;
+  border: 0;
+  border-top: 1px solid var(--border-color);
+}
+
+.muted {
+  color: var(--secondary-color);
+  font-size: 14px;
+  display: block;
+  margin-top: 4px;
+}
+
+/* ==========================================
+   4. Category Carousel Styles (สำหรับ index.html)
+   ========================================== */
+.carousel-category-block {
+  background-color: #e2e8f0;
+  border-radius: 8px;
+  padding: var(--spacing-lg) var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.carousel-category-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-color);
+}
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.carousel-track {
+  display: flex;
+  gap: var(--spacing-md);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 8px 4px;
+  scrollbar-width: none; /* ซ่อน Scrollbar ใน Firefox */
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none; /* ซ่อน Scrollbar ใน Chrome / Safari */
+}
+
+.carousel-card {
+  background-color: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  width: 295px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.carousel-img-container {
+  padding: 12px 12px 0 12px;
+  display: flex;
+  justify-content: center;
+}
+
+/* กำหนดขนาดรูปภาพตามที่ระบุ: W: 265px, H: 353px */
+.carousel-img {
+  width: 265px;
+  height: 353px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  border: 1px solid var(--border-color);
+}
+
+.carousel-card-body {
+  padding: 12px 16px 16px 16px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.card-category-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.card-detail-label {
+  margin-top: 4px;
+}
+
+.card-detail-text {
+  color: #495057;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.card-status-line {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ปุ่มเลื่อน Carousel ซ้าย-ขวา */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.45);
+  color: var(--white);
+  border: none;
+  width: 44px;
+  height: 80px;
+  font-size: 26px;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-btn:hover,
+.carousel-btn:focus-visible {
+  background-color: rgba(0, 0, 0, 0.75);
+  outline: 2px solid var(--white);
+}
+
+.prev-btn { left: -10px; }
+.next-btn { right: -10px; }
+
+/* ==========================================
+   5. Staff Mode & Toggle Switch (โหมดเจ้าหน้าที่)
+   ========================================== */
+.staff-bar {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  padding: var(--spacing-md);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.staff-title {
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.switch {
+  background-color: #e9ecef;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 6px 18px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--text-color);
+  transition: all 0.2s ease;
+}
+
+.switch::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #adb5bd;
+  transition: background-color 0.2s ease;
+}
+
+.switch:hover { background-color: #dee2e6; }
+.switch:focus-visible { outline: 2px solid var(--primary-color); }
+
+.switch[aria-checked="true"] {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-color: var(--primary-color);
+}
+
+.switch[aria-checked="true"]::before {
+  background-color: #28a745;
+}
+
+/* ==========================================
+   6. Form & Filter Styles (สำหรับ report.html, issues.html)
+   ========================================== */
+form {
+  background-color: var(--white);
+  padding: var(--spacing-lg);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-bottom: var(--spacing-lg);
+}
+
+#reportForm {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--spacing-md);
+  align-items: end;
+}
+
+.form-group {
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.filters .form-group {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-color);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 15px;
+  font-family: inherit;
+  background-color: var(--white);
+}
+
+.form-group input:focus-visible,
+.form-group select:focus-visible,
+.form-group textarea:focus-visible {
+  outline: 2px solid var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.form-group input[type="file"] {
+  padding: 8px;
+  border: 1px dashed var(--border-color);
+  border-radius: 4px;
+  background-color: var(--white);
+  cursor: pointer;
+}
+
+.radio-group-options {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+.radio-group-options label {
+  font-weight: normal;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.required-star { color: #dc3545; }
+
+.error-message {
+  color: #dc3545;
+  font-size: 13px;
+  margin-top: 4px;
+  min-height: 18px;
+}
+
+.success-box {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: var(--spacing-lg);
+  border-radius: 8px;
+  margin: var(--spacing-lg) auto 0 auto;
+  max-width: 650px;
+}
+
+.ticket-id {
+  font-size: 20px;
+  color: #155724;
+  font-weight: bold;
+}
+
+/* Modal Popup แสดงรูปภาพ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal-content {
+  background-color: var(--white);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #555;
+}
+
+.modal-close:hover { color: #000; }
+
+/* ==========================================
+   7. Dashboard Bar Charts (สำหรับ dashboard.html)
+   ========================================== */
+.chart-container {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: var(--spacing-md);
+  margin-bottom: 24px;
+}
+.bar-item { margin-bottom: 16px; }
+.bar-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+.bar-track {
+  background-color: #e9ecef;
+  height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  transition: width 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+}
+.bar-fill-pending { background-color: var(--status-pending); color: #000; }
+.bar-fill-progress { background-color: var(--status-progress); }
+.bar-fill-done { background-color: var(--status-done); }
+.bar-fill-category { background-color: var(--primary-color); }
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+.summary-number {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-top: 8px;
+}
+
+/* ==========================================
+   8. Responsive Breakpoints (ตามเกณฑ์ T5)
+   ========================================== */
+@media (max-width: 767px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .carousel-btn {
+    width: 36px;
+    height: 60px;
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  nav ul {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 1280px) {
+  main {
+    max-width: 1140px;
+  }
+}

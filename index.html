@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบแจ้งปัญหาและติดตามการซ่อม - Campus Fix-It</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header & Nav Standard (T1 Semantic HTML) -->
+  <header>
+    <h1>Campus Fix-It</h1>
+    <p>ระบบแจ้งปัญหาและติดตามการซ่อมภายในมหาวิทยาลัย</p>
+  </header>
+
+  <nav aria-label="เมนูหลัก">
+    <ul>
+      <li><a href="index.html" aria-current="page">หน้าแรก</a></li>
+      <li><a href="report.html">แจ้งปัญหา</a></li>
+      <li><a href="issues.html">รายการปัญหา</a></li>
+      <li><a href="track.html">ติดตามสถานะ</a></li>
+      <li><a href="dashboard.html">แดชบอร์ด</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section aria-labelledby="overview-heading">
+      <h2 id="overview-heading">ภาพรวมระบบ</h2>
+      <div class="overview-action">
+        <a href="report.html" class="btn-primary">แจ้งปัญหาใหม่</a>
+      </div>
+    </section>
+
+    <!-- Carousel แยกตามหมวดหมู่ปัญหา -->
+    <section id="category-carousel-section" aria-label="รายการปัญหาแยกตามหมวดหมู่">
+      <!-- JavaScript จะสร้าง Carousel แต่ละหมวดหมู่มาใส่ที่นี่ -->
+    </section>
+
+    <hr class="divider">
+
+    <section aria-labelledby="latest-heading">
+      <h2 id="latest-heading">รายการปัญหาล่าสุด</h2>
+      <div id="latest-issues-list" class="grid-container">
+        <!-- รายการปัญหาล่าสุดจะถูกโหลดเข้าด้วย JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Campus Fix-It - กลุ่มที่ 6 Smart Campus</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      // ดึงข้อมูลปัญหาทั้งหมดผ่าน ฟังก์ชันกลาง
+      const issues = await getIssuesData();
+
+      // -------------------------------------------------------------
+      // 1. สร้าง Carousel แยกตามหมวดหมู่ (Category Carousel)
+      // -------------------------------------------------------------
+      const carouselSection = document.getElementById('category-carousel-section');
+      if (carouselSection) {
+        carouselSection.innerHTML = '';
+
+        // ดึงหมวดหมู่ทั้งหมดที่มีในข้อมูลแบบไม่ซ้ำกัน
+        const categories = [...new Set(issues.map(i => i.category))];
+
+        categories.forEach(cat => {
+          const catIssues = issues.filter(i => i.category === cat);
+          if (catIssues.length === 0) return;
+
+          // สร้างกล่องบล็อกของแต่ละหมวดหมู่
+          const catBlock = document.createElement('div');
+          catBlock.className = 'carousel-category-block';
+
+          // ชื่อหมวดหมู่ (h3)
+          const title = document.createElement('h3');
+          title.className = 'carousel-category-title';
+          title.textContent = cat;
+          catBlock.appendChild(title);
+
+          const wrapper = document.createElement('div');
+          wrapper.className = 'carousel-wrapper';
+
+          // ปุ่มเลื่อนซ้าย
+          const prevBtn = document.createElement('button');
+          prevBtn.className = 'carousel-btn prev-btn';
+          prevBtn.type = 'button';
+          prevBtn.setAttribute('aria-label', `เลื่อนซ้ายหมวด ${cat}`);
+          prevBtn.innerHTML = '&#10094;';
+
+          // ปุ่มเลื่อนขวา
+          const nextBtn = document.createElement('button');
+          nextBtn.className = 'carousel-btn next-btn';
+          nextBtn.type = 'button';
+          nextBtn.setAttribute('aria-label', `เลื่อนขวาหมวด ${cat}`);
+          nextBtn.innerHTML = '&#10095;';
+
+          // แทร็กสำหรับใส่การ์ดปัญหา
+          const track = document.createElement('div');
+          track.className = 'carousel-track';
+
+          catIssues.forEach(issue => {
+            const card = document.createElement('article');
+            card.className = 'carousel-card';
+            
+            // ตรวจสอบชื่อ Field รูปภาพให้รองรับทั้ง imageUrl และ image
+            const imgPath = issue.imageUrl || issue.image || 'images/default.jpg';
+
+            card.innerHTML = `
+              <div class="carousel-img-container">
+                <img src="${imgPath}" alt="ภาพประกอบปัญหา ${issue.category} ณ ${issue.building}" class="carousel-img">
+              </div>
+              <div class="carousel-card-body">
+                <h4 class="card-category-name">${issue.category}</h4>
+                <p><strong>สถานที่:</strong> ${issue.building} ${issue.room ? issue.room : ''}</p>
+                <p class="card-detail-label"><strong>รายละเอียด:</strong></p>
+                <p class="card-detail-text">${issue.detail}</p>
+                <p class="card-status-line">
+                  <strong>สถานะ:</strong> 
+                  <span class="status-tag ${getStatusClass(issue.status)}">${issue.status}</span>
+                </p>
+              </div>
+            `;
+            track.appendChild(card);
+          });
+
+          // ควบคุมการเลื่อนซ้าย-ขวาด้วย Vanilla JS (เกณฑ์ T6 & T9)
+          prevBtn.addEventListener('click', () => {
+            track.scrollBy({ left: -310, behavior: 'smooth' });
+          });
+
+          nextBtn.addEventListener('click', () => {
+            track.scrollBy({ left: 310, behavior: 'smooth' });
+          });
+
+          wrapper.appendChild(prevBtn);
+          wrapper.appendChild(track);
+          wrapper.appendChild(nextBtn);
+          catBlock.appendChild(wrapper);
+
+          carouselSection.appendChild(catBlock);
+        });
+      }
+
+      // -------------------------------------------------------------
+      // 2. แสดงปัญหา 3 รายการล่าสุดด้านล่าง
+      // -------------------------------------------------------------
+      const latestList = document.getElementById('latest-issues-list');
+      if (latestList) {
+        const sortedIssues = [...issues].sort((a, b) => new Date(b.reportedAt) - new Date(a.reportedAt));
+        const top3 = sortedIssues.slice(0, 3);
+
+        latestList.innerHTML = '';
+        top3.forEach(issue => {
+          const item = document.createElement('article');
+          item.className = 'card';
+          const imgPath = issue.imageUrl || issue.image;
+          const imgHtml = imgPath 
+            ? `<img src="${imgPath}" alt="ภาพประกอบปัญหา ${issue.id}" class="issue-img">`
+            : '';
+
+          item.innerHTML = `
+            ${imgHtml}
+            <h3>${issue.id} - ${issue.category}</h3>
+            <p><strong>สถานที่:</strong> ${issue.building} (${issue.room})</p>
+            <p><strong>รายละเอียด:</strong> ${issue.detail}</p>
+            <p><strong>สถานะ:</strong> <span class="status-tag ${getStatusClass(issue.status)}">${issue.status}</span></p>
+          `;
+          latestList.appendChild(item);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รายการปัญหาทั้งหมด - Campus Fix-It</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header & Nav Standard -->
+  <header>
+    <h1>Campus Fix-It</h1>
+    <p>ระบบแจ้งปัญหาและติดตามการซ่อมภายในมหาวิทยาลัย</p>
+  </header>
+
+  <nav aria-label="เมนูหลัก">
+    <ul>
+      <li><a href="index.html">หน้าแรก</a></li>
+      <li><a href="report.html">แจ้งปัญหา</a></li>
+      <li><a href="issues.html" aria-current="page">รายการปัญหา</a></li>
+      <li><a href="track.html">ติดตามสถานะ</a></li>
+      <li><a href="dashboard.html">แดชบอร์ด</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section>
+      <h2>รายการปัญหาทั้งหมด</h2>
+
+      <!-- โหมดเจ้าหน้าที่ -->
+      <div class="staff-bar">
+        <div>
+          <h3 id="staff-title" class="staff-title">โหมดเจ้าหน้าที่</h3>
+          <p id="staff-hint" class="muted">ปิดอยู่ — เปิดเพื่อเปลี่ยนสถานะงาน</p>
+        </div>
+        <button type="button" id="staff-switch" class="switch" aria-checked="false" aria-labelledby="staff-title" aria-describedby="staff-hint">
+          <span class="switch-knob" aria-hidden="true"></span>
+          <span class="switch-text">ปิด</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ตัวกรองและการเรียงลำดับ -->
+    <section>
+      <form id="filter-form" class="filters" aria-label="กรองรายการปัญหา">
+        <div class="form-group">
+          <label for="f-category">หมวดหมู่</label>
+          <select id="f-category" name="category">
+            <option value="">ทุกหมวด</option>
+            <option value="ไฟฟ้า">ไฟฟ้า</option>
+            <option value="ประปา">ประปา</option>
+            <option value="IT-Wi-Fi">IT-Wi-Fi</option>
+            <option value="ความสะอาด">ความสะอาด</option>
+            <option value="ความปลอดภัย">ความปลอดภัย</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="f-building">อาคาร</label>
+          <select id="f-building" name="building">
+            <option value="">ทุกอาคาร</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="f-status">สถานะ</label>
+          <select id="f-status" name="status">
+            <option value="">ทุกสถานะ</option>
+            <option value="รอดำเนินการ">รอดำเนินการ</option>
+            <option value="กำลังซ่อม">กำลังซ่อม</option>
+            <option value="เสร็จสิ้น">เสร็จสิ้น</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="f-sort">เรียงตาม</label>
+          <select id="f-sort" name="sort">
+            <option value="date-desc">วันที่แจ้ง: ใหม่ → เก่า</option>
+            <option value="date-asc">วันที่แจ้ง: เก่า → ใหม่</option>
+            <option value="urgency-desc">ความเร่งด่วน: สูง → ต่ำ</option>
+            <option value="plus-desc">คนเจอปัญหาเดียวกันมากสุด</option>
+          </select>
+        </div>
+        <button type="reset" id="f-reset" class="btn-secondary">ล้างตัวกรอง</button>
+      </form>
+    </section>
+
+    <hr class="divider">
+
+    <!-- รายการแสดงผล -->
+    <section>
+      <p id="result-count" class="muted" role="status" aria-live="polite"></p>
+      <p id="load-error" class="error-message" role="alert" hidden></p>
+      <div id="issue-list" class="grid-container">
+        <!-- รายการปัญหาจะถูกโหลดเข้าด้วย JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Campus Fix-It - กลุ่มที่ 6 Smart Campus</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/issueslist.js"></script>
+</body>
+</html>
